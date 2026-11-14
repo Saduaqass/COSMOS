@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, isAppLocale, localeTags } from "@/i18n/routing";
+import { LocaleProvider } from "@/components/layout/LocaleProvider";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -14,9 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!isAppLocale(locale)) notFound();
   const t = await getTranslations({ locale, namespace: "metadata" });
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")),
     title: t("title"),
     description: t("description"),
-    openGraph: { locale: localeTags[locale], siteName: "COSMOS" },
+    openGraph: { locale: localeTags[locale].replace("-", "_"), siteName: "COSMOS" },
   };
 }
 
@@ -24,11 +26,12 @@ export default async function LocaleLayout({ children, params }: Readonly<{ chil
   const { locale } = await params;
   if (!isAppLocale(locale)) notFound();
   setRequestLocale(locale);
-  const messages = await getMessages();
-
   return <html lang={localeTags[locale]} className="h-full antialiased">
     <body className="min-h-full flex flex-col">
-      <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      <LocaleProvider key={locale} initialLocale={locale}>
+        {children}
+        <SiteFooter />
+      </LocaleProvider>
     </body>
   </html>;
 }

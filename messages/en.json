@@ -2,5 +2,168 @@
   "metadata": {
     "title": "COSMOS — Interactive 3D Universe",
     "description": "Explore the universe without limits"
+  },
+  "navigation": {
+    "brandSubtitle": "Interactive 3D universe",
+    "mainNavigation": "Main navigation",
+    "home": "Home",
+    "about": "About",
+    "planets": "Planets",
+    "language": "Choose language",
+    "languageName": "English",
+    "languageShort": "ENG",
+    "languages": { "kk": "Kazakh", "ru": "Russian", "en": "English" }
+  },
+  "hero": {
+    "eyebrow": "Explore the universe without limits",
+    "title": "The universe is closer than it seems.",
+    "description": "COSMOS is an interactive educational platform for exploring the Solar System.",
+    "explore": "Start exploring",
+    "journey": "Space journey",
+    "about": "About the project"
+  },
+  "about": {
+    "title": "Your journey starts here",
+    "description": "The interactive 3D scene lets you explore the planets and their positions. Visual scale is illustrative."
+  },
+  "scene": {
+    "eyebrow": "Interactive overview",
+    "solarSystem": "Solar System",
+    "scaleHint": "Visual scale is illustrative. Rotate with a mouse or touch, and zoom with a wheel or gesture.",
+    "selectPlanet": "Select a planet",
+    "planetPage": "Planet page →",
+    "source": "NASA source ↗",
+    "startJourney": "Start journey",
+    "previous": "← Previous",
+    "next": "Next →",
+    "overview": "Overview",
+    "home": "Home",
+    "cameraReady": "Camera ready",
+    "cameraTransit": "Camera in transit…",
+    "stopCount": "Stop {current} / {total}"
+  },
+  "controls": {
+    "title": "Controls",
+    "pauseMotion": "Stop movement",
+    "resumeMotion": "Start movement",
+    "speed": "Animation speed",
+    "quality": "3D quality",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "qualityHint": "Detail is automatically reduced on small screens and less powerful devices.",
+    "orbits": "Orbits",
+    "labels": "Planet names",
+    "stars": "Starfield",
+    "reset": "Reset camera",
+    "speedLabel": "Animation speed",
+    "qualityLabel": "3D graphics quality"
+  },
+  "journey": {
+    "pause": "Pause",
+    "resume": "Resume",
+    "next": "Next planet →",
+    "end": "End journey",
+    "paused": "Journey paused",
+    "completed": "Journey complete"
+  },
+  "loading": {
+    "universe": "Loading the 3D universe…",
+    "planet": "Loading the 3D model…",
+    "preparing": "Preparing the 3D scene…",
+    "webglHome": "WebGL is unavailable in this browser. Text sections and planet pages are still available.",
+    "webglPlanet": "WebGL is unavailable in this browser. Scientific data and facts are available below.",
+    "errorHome": "The 3D scene could not be loaded. Refresh the page or try another browser.",
+    "errorPlanet": "The planet model could not be loaded. Scientific data is available below.",
+    "page": "Loading planet…"
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "There is no planet or section at this address.",
+    "notFoundHome": "Return home"
+  },
+  "planetIndex": {
+    "eyebrow": "Explore the Solar System",
+    "title": "Planets",
+    "description": "Explore the eight planets in order from the Sun and discover what makes each one unique.",
+    "explore": "Explore →"
+  },
+  "planetPage": {
+    "position": "Planet {current} of 8",
+    "model": "Interactive 3D model of {name}",
+    "modelHint": "Rotate the model with a mouse or touch. Visual scale is illustrative.",
+    "factsTitle": "Key facts",
+    "diameter": "Equatorial diameter",
+    "distance": "Mean distance from the Sun",
+    "rotation": "Rotation period",
+    "retrograde": "retrograde",
+    "orbital": "Orbital period",
+    "earthDays": "Earth days",
+    "kilometers": "km",
+    "millionKilometers": "million km",
+    "hours": "hours",
+    "celsius": "°C",
+    "temperatureSurface": "Mean surface temperature",
+    "temperatureOneBar": "Mean temperature at the 1-bar level",
+    "moons": "Known natural satellites",
+    "satelliteNote": "Based on the IAU-recognized objects listed by JPL. Checked {date}. The count may change as discoveries are confirmed.",
+    "interesting": "Interesting facts",
+    "sources": "Sources",
+    "factSheet": "NASA Planetary Fact Sheet",
+    "satelliteSource": "JPL satellite list",
+    "nasaFacts": "NASA facts",
+    "measurementNote": "Diameter is measured at the equator; rotation period is relative to the stars. Giant planet temperatures refer to the 1-bar atmospheric level. Data checked {date}.",
+    "previous": "← {name}",
+    "next": "{name} →",
+    "otherPlanets": "Other planets",
+    "backHome": "← Home"
+  },
+  "footer": {
+    "tagline": "Explore the Solar System in 3D",
+    "copyright": "COSMOS. All visual scales are illustrative."
+  },
+  "celestial": { "sun": "Sun", "moon": "Moon" },
+  "dates": { "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
+  "planets": {
+    "mercury": {
+      "name": "Mercury",
+      "summary": "The smallest planet and the closest to the Sun.",
+      "facts": ["Mercury is the closest planet to the Sun.", "One orbit around the Sun takes about 88 Earth days."]
+    },
+    "venus": {
+      "name": "Venus",
+      "summary": "The hottest planet, warmed by its dense atmosphere.",
+      "facts": ["Venus rotates in the direction opposite to most planets.", "Its dense atmosphere traps heat, making Venus the hottest planet."]
+    },
+    "earth": {
+      "name": "Earth",
+      "summary": "Our home, with vast oceans of liquid water.",
+      "facts": ["Most of Earth's surface is covered by liquid water.", "Earth's only natural satellite is the Moon."]
+    },
+    "mars": {
+      "name": "Mars",
+      "summary": "Oxidized iron minerals give Mars its reddish color.",
+      "facts": ["Mars looks red because iron minerals have oxidized.", "Mars's natural satellites are Phobos and Deimos."]
+    },
+    "jupiter": {
+      "name": "Jupiter",
+      "summary": "The largest planet in the Solar System and a gas giant.",
+      "facts": ["Jupiter is the largest planet in the Solar System.", "Its atmosphere shows cloud bands and the Great Red Spot."]
+    },
+    "saturn": {
+      "name": "Saturn",
+      "summary": "Saturn's rings are made of countless particles of ice and rock.",
+      "facts": ["Saturn's rings are made mostly of ice and rock particles.", "Titan is Saturn's largest moon."]
+    },
+    "uranus": {
+      "name": "Uranus",
+      "summary": "Its extreme axial tilt makes Uranus appear to roll on its side.",
+      "facts": ["Uranus's axis is tilted by nearly 98° from the perpendicular to its orbit.", "Uranus has a faint ring system."]
+    },
+    "neptune": {
+      "name": "Neptune",
+      "summary": "The planet farthest from the Sun in the Solar System.",
+      "facts": ["Neptune is the farthest planet from the Sun.", "One orbit around the Sun takes about 165 Earth years."]
+    }
   }
 }

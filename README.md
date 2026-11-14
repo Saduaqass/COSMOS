@@ -1,6 +1,6 @@
 # COSMOS — Interactive 3D Universe
 
-Интерактивный образовательный сайт о Солнечной системе. Сейчас выполнен этап 1: каркас приложения и начальная страница.
+Интерактивный образовательный сайт для исследования Солнечной системы. Интерфейс доступен на казахском, русском и английском языках; казахский используется по умолчанию.
 
 ## Локали
 
@@ -20,6 +20,7 @@ npm run dev
 ```bash
 npm run lint
 npx tsc --noEmit
+npm run check:messages
 npm run build
 ```
 
@@ -46,7 +47,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 ## Развёртывание
 
-Проект готов к Vercel: подключите репозиторий GitHub и оставьте стандартные настройки Next.js. Переменные окружения не требуются. Перед публикацией проверьте `npm run lint`, `npx tsc --noEmit`, `npm run build` и `npm audit`.
+Проект готов к Vercel: подключите репозиторий GitHub и оставьте стандартные настройки Next.js. `VERCEL_PROJECT_PRODUCTION_URL` используется для canonical URL автоматически. Для собственного домена задайте `NEXT_PUBLIC_SITE_URL` (например, `https://cosmos.example.com`) в окружении сборки, чтобы canonical и hreflang указывали на публичный адрес. Перед публикацией проверьте `npm run lint`, `npx tsc --noEmit`, `npm run build` и `npm audit`.
 
 ## Источники карт планет
 

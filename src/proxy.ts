@@ -15,7 +15,13 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return handleI18nRouting(request);
+  const response = handleI18nRouting(request);
+  response.cookies.set("NEXT_LOCALE", requestedLocale, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+    sameSite: "lax",
+  });
+  return response;
 }
 
 export const config = {

@@ -52,7 +52,7 @@ function CameraRig({ explore, selected, onArrive }: { explore: boolean; selected
       aim(new THREE.Vector3(0, 22, 32), new THREE.Vector3(0, 0, 0), reduced ? 0 : 1.1);
     }
     if (explore && selected) {
-      const object = scene.getObjectByName(body?.name ?? "");
+      const object = scene.getObjectByName(selected ? `planet-${selected}` : "");
       if (object && body) {
         object.updateWorldMatrix(true, false);
         const planetPosition = object.getWorldPosition(new THREE.Vector3());
