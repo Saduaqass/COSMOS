@@ -44,7 +44,7 @@ async function PlanetContent({ params }: { params: Promise<{ slug: string }> }) 
         <p className="text-xs uppercase tracking-[.3em] text-[#57D9FF]">Планета {index + 1} / 8</p>
         <h1 className="mt-4 text-5xl font-light tracking-tight sm:text-7xl">{planet.name}</h1>
         <p className="mt-6 max-w-xl text-lg leading-8 text-[#94A3B8]">{planet.summary}</p>
-        <div className="mt-8 h-[360px] w-full min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_center,#0b2647,#03050B_70%)] sm:h-[520px]" role="img" aria-label={`Интерактивная 3D-модель планеты ${planet.name}`}>
+        <div className="mt-8 h-[360px] w-full min-w-0 overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_center,#0b2647,#03050B_70%)] sm:h-[520px]" role="region" aria-label={`Интерактивная 3D-модель планеты ${planet.name}`}>
           <PlanetViewLoader slug={planet.slug} />
         </div>
         <p className="mt-3 text-xs text-[#94A3B8]">Вращайте модель мышью или касанием. Визуальный масштаб условный.</p>

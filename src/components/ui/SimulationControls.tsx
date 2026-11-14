@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import { Pause, Play, RotateCcw, Settings2 } from "lucide-react";
-import { useUniverseStore, type SimulationSpeed } from "@/store/universe";
+import { useUniverseStore, type RenderQuality, type SimulationSpeed } from "@/store/universe";
 
 const speeds: readonly SimulationSpeed[] = [0, 0.5, 1, 2, 5];
+const qualities: readonly { value: RenderQuality; label: string }[] = [
+  { value: "low", label: "Низкое" },
+  { value: "medium", label: "Среднее" },
+  { value: "high", label: "Высокое" },
+];
 
 export function SimulationControls({ onCameraReset }: { onCameraReset: () => void }) {
   const [open, setOpen] = useState(false);
@@ -15,9 +20,11 @@ export function SimulationControls({ onCameraReset }: { onCameraReset: () => voi
   const showOrbits = useUniverseStore((state) => state.showOrbits);
   const showLabels = useUniverseStore((state) => state.showLabels);
   const showStars = useUniverseStore((state) => state.showStars);
+  const quality = useUniverseStore((state) => state.quality);
   const toggleOrbits = useUniverseStore((state) => state.toggleOrbits);
   const toggleLabels = useUniverseStore((state) => state.toggleLabels);
   const toggleStars = useUniverseStore((state) => state.toggleStars);
+  const setQuality = useUniverseStore((state) => state.setQuality);
   const resetCamera = useUniverseStore((state) => state.resetCamera);
 
   return <div className="pointer-events-auto absolute right-6 top-28 z-30 w-[min(340px,calc(100vw-3rem))] sm:right-12 sm:top-32">
@@ -38,6 +45,16 @@ export function SimulationControls({ onCameraReset }: { onCameraReset: () => voi
             {value}×
           </button>)}
         </div>
+      </fieldset>
+      <fieldset className="mt-5">
+        <legend className="mb-3 text-xs uppercase tracking-[.2em] text-[#94A3B8]">Качество 3D</legend>
+        <div className="flex gap-1" role="group" aria-label="Качество 3D-графики">
+          {qualities.map(({ value, label }) => <button type="button" key={value} onClick={() => setQuality(value)} aria-pressed={quality === value}
+            className={`min-h-10 flex-1 rounded-lg border px-1 text-xs ${quality === value ? "border-[#57D9FF] bg-[#246BFD]/40 text-white" : "border-white/15 text-[#94A3B8] hover:text-white"}`}>
+            {label}
+          </button>)}
+        </div>
+        <p className="mt-2 text-xs text-[#94A3B8]">На небольших экранах и маломощных устройствах детализация ограничивается автоматически.</p>
       </fieldset>
       <div className="mt-5 space-y-1 border-t border-white/10 pt-4">
         <Toggle label="Орбиты" checked={showOrbits} onClick={toggleOrbits} />

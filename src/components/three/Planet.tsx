@@ -6,15 +6,20 @@ import { useRef, useState } from "react";
 import * as THREE from "three";
 import type { SolarPlanet } from "@/data/solarObjects";
 import { useUniverseStore } from "@/store/universe";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { getRenderProfile } from "@/lib/renderQuality";
 
 function Moon() {
   const texture = useTexture("/textures/moon.jpg");
   const orbit = useRef<THREE.Group>(null);
   const speed = useUniverseStore((state) => state.paused ? 0 : state.speed);
-  useFrame((_, delta) => { if (orbit.current) orbit.current.rotation.y += delta * 0.65 * speed; });
+  const quality = useUniverseStore((state) => state.quality);
+  const reducedMotion = useReducedMotion();
+  const segments = getRenderProfile(quality).segments;
+  useFrame((_, delta) => { if (orbit.current && !reducedMotion) orbit.current.rotation.y += delta * 0.65 * speed; });
   return <group ref={orbit}>
     <mesh position={[0.38, 0.02, 0]}>
-      <sphereGeometry args={[0.055, 16, 12]} />
+      <sphereGeometry args={[0.055, Math.max(12, segments - 8), Math.max(8, segments - 12)]} />
       <meshStandardMaterial map={texture} roughness={1} />
     </mesh>
   </group>;
@@ -28,23 +33,26 @@ export function Planet({ body }: { body: SolarPlanet }) {
   const selectPlanet = useUniverseStore((state) => state.selectPlanet);
   const speed = useUniverseStore((state) => state.paused ? 0 : state.speed);
   const showLabels = useUniverseStore((state) => state.showLabels);
+  const quality = useUniverseStore((state) => state.quality);
+  const profile = getRenderProfile(quality);
+  const reducedMotion = useReducedMotion();
   const [hovered, setHovered] = useState(false);
   useFrame((_, delta) => {
-    if (orbit.current && selected !== body.slug) orbit.current.rotation.y += delta * body.orbitSpeed * speed;
-    if (surface.current) surface.current.rotation.y += delta * body.spinSpeed * speed;
-  });
+    if (!reducedMotion && orbit.current && selected !== body.slug) orbit.current.rotation.y += delta * body.orbitSpeed * speed;
+    if (!reducedMotion && surface.current) surface.current.rotation.y += delta * body.spinSpeed * speed;
+  }, -1);
   return <group ref={orbit} rotation={[0, body.initialAngle, 0]}>
     <group position={[body.radius, 0, 0]} rotation={[0, 0, body.axialTilt]}>
       <mesh ref={surface} name={body.name} scale={hovered || selected === body.slug ? 1.15 : 1}
         onClick={(event) => { event.stopPropagation(); selectPlanet(body.slug); }}
         onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
         onPointerOut={() => { setHovered(false); document.body.style.cursor = ""; }}>
-        <sphereGeometry args={[body.size, 32, 24]} />
+        <sphereGeometry args={[body.size, profile.segments, Math.round(profile.segments * 0.75)]} />
         <meshStandardMaterial map={texture} roughness={0.94} emissive={hovered ? "#57d9ff" : "#000000"} emissiveIntensity={0.35} />
       </mesh>
       {body.slug === "earth" && <>
         <mesh scale={1.08}>
-          <sphereGeometry args={[body.size, 24, 16]} />
+          <sphereGeometry args={[body.size, profile.segments, Math.round(profile.segments * 0.75)]} />
           <meshBasicMaterial color="#52baff" transparent opacity={0.12} side={THREE.BackSide} />
         </mesh>
         <Moon />

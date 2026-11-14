@@ -84,7 +84,7 @@ export function HomeExperience() {
         </div>}
       </div>
       <div className="flex flex-col gap-4">
-        <div aria-label="Выбрать планету" className="pointer-events-auto flex max-w-4xl flex-wrap gap-2">
+        <div role="group" aria-label="Выбрать планету" className="pointer-events-auto flex max-w-4xl flex-wrap gap-2">
           {solarPlanets.map((planet) => <button type="button" key={planet.slug} onClick={() => { stopTravel(); setArrived(false); selectPlanet(planet.slug); }} aria-pressed={selected === planet.slug}
             className={`rounded-full border px-3 py-2 text-xs transition-colors sm:px-4 sm:text-sm ${selected === planet.slug ? "border-[#57D9FF] bg-[#246BFD]/30 text-white" : "border-white/25 bg-[#071426]/85 text-[#94A3B8] hover:border-[#57D9FF] hover:text-white"}`}>
             {planet.name}

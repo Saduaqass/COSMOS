@@ -3,6 +3,7 @@ import type { PlanetSlug } from "@/data/solarObjects";
 import { solarPlanets } from "@/data/solarObjects";
 
 export type SimulationSpeed = 0 | 0.5 | 1 | 2 | 5;
+export type RenderQuality = "low" | "medium" | "high";
 
 type UniverseState = {
   selected: PlanetSlug | null;
@@ -17,6 +18,8 @@ type UniverseState = {
   toggleOrbits: () => void;
   toggleLabels: () => void;
   toggleStars: () => void;
+  quality: RenderQuality;
+  setQuality: (quality: RenderQuality) => void;
   cameraResetToken: number;
   resetCamera: () => void;
   travelActive: boolean;
@@ -42,6 +45,8 @@ export const useUniverseStore = create<UniverseState>((set) => ({
   toggleOrbits: () => set((state) => ({ showOrbits: !state.showOrbits })),
   toggleLabels: () => set((state) => ({ showLabels: !state.showLabels })),
   toggleStars: () => set((state) => ({ showStars: !state.showStars })),
+  quality: "medium",
+  setQuality: (quality) => set({ quality }),
   cameraResetToken: 0,
   resetCamera: () => set((state) => ({ selected: null, cameraResetToken: state.cameraResetToken + 1 })),
   travelActive: false,
