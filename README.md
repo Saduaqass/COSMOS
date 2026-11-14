@@ -2,6 +2,10 @@
 
 Интерактивный образовательный сайт о Солнечной системе. Сейчас выполнен этап 1: каркас приложения и начальная страница.
 
+## Локали
+
+Проект использует App Router с префиксными маршрутами `/kk`, `/ru` и `/en`. Казахский (`kk-KZ`) — язык по умолчанию; язык браузера не меняет этот выбор. Сохранённый выбор хранится в cookie `NEXT_LOCALE`. Локализация подключена через `next-intl`; словари находятся в `messages/`.
+
 ## Запуск
 
 ```bash
@@ -30,7 +34,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 - [Next.js: установка](https://nextjs.org/docs/app/getting-started/installation)
 - [Tailwind CSS с Next.js](https://tailwindcss.com/docs/installation/framework-guides/nextjs)
 
-Источники текстур и научных данных будут перечислены после их добавления.
+Источники текстур и научных данных перечислены ниже.
 
 ## Текстуры
 
