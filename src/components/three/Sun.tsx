@@ -4,11 +4,13 @@ import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
+import { useUniverseStore } from "@/store/universe";
 
 export function Sun() {
   const texture = useTexture("/textures/sun.jpg");
   const mesh = useRef<THREE.Mesh>(null);
-  useFrame((_, delta) => { if (mesh.current) mesh.current.rotation.y += delta * 0.025; });
+  const speed = useUniverseStore((state) => state.paused ? 0 : state.speed);
+  useFrame((_, delta) => { if (mesh.current) mesh.current.rotation.y += delta * 0.025 * speed; });
   return <group>
     <mesh ref={mesh}>
       <sphereGeometry args={[0.9, 48, 32]} />

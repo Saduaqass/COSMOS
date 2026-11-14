@@ -53,3 +53,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 ## Характеристики планет
 
 Физические характеристики: [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html). Определения показателей: [примечания к таблице](https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html). Число подтверждённых естественных спутников: [NASA/JPL Planetary Satellite Discovery Circumstances](https://ssd.jpl.nasa.gov/sats/discovery.html), проверено 14 ноября 2026 года. Для спутников использована таблица JPL, поскольку число на сводной странице NSSDCA обновляется реже. Факты каждой планеты дополнительно связаны с её страницей NASA Science.
+
+## Управление симуляцией
+
+В режиме исследования панель позволяет поставить анимацию на паузу, выбрать скорость от 0× до 5×, скрыть орбиты, подписи или звёздное поле и вернуть камеру к общему виду. Скорость влияет на вращение планет и их орбитальное движение.

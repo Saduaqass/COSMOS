@@ -8,6 +8,7 @@ import { HeroSceneLoader } from "../three/HeroSceneLoader";
 import { solarPlanets } from "@/data/solarObjects";
 import { useUniverseStore } from "@/store/universe";
 import Link from "next/link";
+import { SimulationControls } from "@/components/ui/SimulationControls";
 
 export function HomeExperience() {
   const [explore, setExplore] = useState(false);
@@ -40,6 +41,7 @@ export function HomeExperience() {
         <ActionLink href="#about" variant="secondary">О проекте</ActionLink>
       </div>
     </div> : <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-6 pt-28 sm:p-12 sm:pt-32">
+      <SimulationControls onCameraReset={() => setArrived(false)} />
       <div className={`max-w-xl ${selectedBody ? "rounded-2xl border border-white/10 bg-[#071426]/80 p-5 shadow-2xl backdrop-blur-md sm:p-7" : ""}`}>
         <p className="text-xs uppercase tracking-[.3em] text-[#57D9FF]">Интерактивный обзор</p>
         <h1 className="mt-3 text-3xl font-light sm:text-5xl">{selectedBody?.name ?? "Солнечная система"}</h1>

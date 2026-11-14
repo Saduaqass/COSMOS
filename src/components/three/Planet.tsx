@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
+import { Html, useTexture } from "@react-three/drei";
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import type { SolarPlanet } from "@/data/solarObjects";
@@ -10,7 +10,8 @@ import { useUniverseStore } from "@/store/universe";
 function Moon() {
   const texture = useTexture("/textures/moon.jpg");
   const orbit = useRef<THREE.Group>(null);
-  useFrame((_, delta) => { if (orbit.current) orbit.current.rotation.y += delta * 0.65; });
+  const speed = useUniverseStore((state) => state.paused ? 0 : state.speed);
+  useFrame((_, delta) => { if (orbit.current) orbit.current.rotation.y += delta * 0.65 * speed; });
   return <group ref={orbit}>
     <mesh position={[0.38, 0.02, 0]}>
       <sphereGeometry args={[0.055, 16, 12]} />
@@ -25,10 +26,12 @@ export function Planet({ body }: { body: SolarPlanet }) {
   const surface = useRef<THREE.Mesh>(null);
   const selected = useUniverseStore((state) => state.selected);
   const selectPlanet = useUniverseStore((state) => state.selectPlanet);
+  const speed = useUniverseStore((state) => state.paused ? 0 : state.speed);
+  const showLabels = useUniverseStore((state) => state.showLabels);
   const [hovered, setHovered] = useState(false);
   useFrame((_, delta) => {
-    if (orbit.current && selected !== body.slug) orbit.current.rotation.y += delta * body.orbitSpeed;
-    if (surface.current) surface.current.rotation.y += delta * body.spinSpeed;
+    if (orbit.current && selected !== body.slug) orbit.current.rotation.y += delta * body.orbitSpeed * speed;
+    if (surface.current) surface.current.rotation.y += delta * body.spinSpeed * speed;
   });
   return <group ref={orbit} rotation={[0, body.initialAngle, 0]}>
     <group position={[body.radius, 0, 0]} rotation={[0, 0, body.axialTilt]}>
@@ -50,6 +53,9 @@ export function Planet({ body }: { body: SolarPlanet }) {
         <ringGeometry args={[0.56, 0.8, 64]} />
         <meshStandardMaterial color="#c7b68d" transparent opacity={0.72} side={THREE.DoubleSide} roughness={1} />
       </mesh>}
+      {showLabels && <Html position={[0, body.size + 0.18, 0]} center style={{ pointerEvents: "none", whiteSpace: "nowrap", color: "#cbd5e1", fontSize: 11, textShadow: "0 1px 6px #03050b" }}>
+        {body.name}
+      </Html>}
     </group>
   </group>;
 }
