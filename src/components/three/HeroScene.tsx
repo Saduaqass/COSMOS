@@ -5,7 +5,7 @@ import { OrbitControls, Stars, useTexture } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
-import { SolarPreview } from "./SolarPreview";
+import { SolarSystem } from "./SolarSystem";
 
 function HeroEarth() {
   const mesh = useRef<THREE.Mesh>(null);
@@ -53,7 +53,7 @@ export default function HeroScene({ explore, onArrive }: { explore: boolean; onA
     <ambientLight intensity={0.8} />
     <directionalLight position={[-16, 3, 8]} intensity={3} color="#ffffff" />
     <Suspense fallback={null}><HeroEarth /></Suspense>
-    <SolarPreview />
+    <SolarSystem />
     <Stars radius={80} depth={40} count={1200} factor={2} saturation={0} fade speed={0.15} />
     <CameraRig explore={explore} onArrive={onArrive} />
   </Canvas>;
