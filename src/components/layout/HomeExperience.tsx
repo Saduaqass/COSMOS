@@ -7,6 +7,7 @@ import { ActionLink } from "../ui/ActionLink";
 import { HeroSceneLoader } from "../three/HeroSceneLoader";
 import { solarPlanets } from "@/data/solarObjects";
 import { useUniverseStore } from "@/store/universe";
+import Link from "next/link";
 
 export function HomeExperience() {
   const [explore, setExplore] = useState(false);
@@ -43,7 +44,10 @@ export function HomeExperience() {
         <p className="text-xs uppercase tracking-[.3em] text-[#57D9FF]">Интерактивный обзор</p>
         <h1 className="mt-3 text-3xl font-light sm:text-5xl">{selectedBody?.name ?? "Солнечная система"}</h1>
         <p className="mt-4 text-sm text-[#94A3B8]">{selectedBody?.summary ?? "Масштаб условный. Вращайте сцену мышью или касанием, приближайте колесом или жестом."}</p>
-        {selectedBody && <a href={selectedBody.nasaUrl} target="_blank" rel="noopener noreferrer" className="pointer-events-auto mt-4 inline-block text-sm text-[#57D9FF] underline underline-offset-4">Подробнее в NASA ↗</a>}
+        {selectedBody && <div className="mt-5 flex flex-wrap gap-4 text-sm">
+          <Link href={`/planets/${selectedBody.slug}`} className="pointer-events-auto font-medium text-[#57D9FF] underline underline-offset-4">Страница планеты →</Link>
+          <a href={selectedBody.nasaUrl} target="_blank" rel="noopener noreferrer" className="pointer-events-auto text-[#94A3B8] underline underline-offset-4">Источник NASA ↗</a>
+        </div>}
       </div>
       <div className="flex flex-col gap-4">
         <div aria-label="Выбрать планету" className="pointer-events-auto flex max-w-4xl flex-wrap gap-2">

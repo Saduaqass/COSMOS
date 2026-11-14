@@ -49,3 +49,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 ## Научные описания
 
 Краткие факты в карточках сверены со страницами NASA Science; ссылка на соответствующий источник хранится рядом с данными каждой планеты в `src/data/solarObjects.ts`. Числовые характеристики будут добавлены на следующем этапе с указанием даты актуальности для меняющихся показателей.
+
+## Характеристики планет
+
+Физические характеристики: [NASA NSSDCA Planetary Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html). Определения показателей: [примечания к таблице](https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html). Число подтверждённых естественных спутников: [NASA/JPL Planetary Satellite Discovery Circumstances](https://ssd.jpl.nasa.gov/sats/discovery.html), проверено 14 ноября 2026 года. Для спутников использована таблица JPL, поскольку число на сводной странице NSSDCA обновляется реже. Факты каждой планеты дополнительно связаны с её страницей NASA Science.
