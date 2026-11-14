@@ -5,12 +5,18 @@ import gsap from "gsap";
 import { SiteHeader } from "./SiteHeader";
 import { ActionLink } from "../ui/ActionLink";
 import { HeroSceneLoader } from "../three/HeroSceneLoader";
+import { solarPlanets } from "@/data/solarObjects";
+import { useUniverseStore } from "@/store/universe";
 
 export function HomeExperience() {
   const [explore, setExplore] = useState(false);
   const [arrived, setArrived] = useState(false);
   const intro = useRef<HTMLDivElement>(null);
   const onArrive = useCallback(() => setArrived(true), []);
+  const selected = useUniverseStore((state) => state.selected);
+  const selectPlanet = useUniverseStore((state) => state.selectPlanet);
+  const selectedBody = solarPlanets.find((planet) => planet.slug === selected);
+  const selectedIndex = solarPlanets.findIndex((planet) => planet.slug === selected);
 
   useEffect(() => {
     if (!intro.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -21,7 +27,7 @@ export function HomeExperience() {
   return <main className="relative min-h-screen overflow-hidden bg-[#03050B] text-white">
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_43%,#123963_0%,#071426_34%,#03050B_70%)]" />
     <div className="pointer-events-none absolute right-[-25%] top-[10%] h-[65vh] w-[115%] opacity-75 sm:right-[-14%] sm:top-0 sm:h-screen sm:w-[75%] sm:opacity-100" style={explore ? { position: "fixed", inset: 0, width: "100%", height: "100vh", opacity: 1, pointerEvents: "auto" } : undefined}>
-      <HeroSceneLoader explore={explore} onArrive={onArrive} />
+      <HeroSceneLoader explore={explore} selected={selected} onArrive={onArrive} />
     </div>
     <SiteHeader showAbout={!explore} />
     {!explore ? <div ref={intro} className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-center px-6 pb-16 pt-36 sm:px-12">
@@ -33,14 +39,28 @@ export function HomeExperience() {
         <ActionLink href="#about" variant="secondary">О проекте</ActionLink>
       </div>
     </div> : <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-6 pt-28 sm:p-12 sm:pt-32">
-      <div className="max-w-xl">
+      <div className={`max-w-xl ${selectedBody ? "rounded-2xl border border-white/10 bg-[#071426]/80 p-5 shadow-2xl backdrop-blur-md sm:p-7" : ""}`}>
         <p className="text-xs uppercase tracking-[.3em] text-[#57D9FF]">Интерактивный обзор</p>
-        <h1 className="mt-3 text-3xl font-light sm:text-5xl">Солнечная система</h1>
-        <p className="mt-4 text-sm text-[#94A3B8]">Масштаб условный. Вращайте сцену мышью или касанием, приближайте колесом или жестом.</p>
+        <h1 className="mt-3 text-3xl font-light sm:text-5xl">{selectedBody?.name ?? "Солнечная система"}</h1>
+        <p className="mt-4 text-sm text-[#94A3B8]">{selectedBody?.summary ?? "Масштаб условный. Вращайте сцену мышью или касанием, приближайте колесом или жестом."}</p>
+        {selectedBody && <a href={selectedBody.nasaUrl} target="_blank" rel="noopener noreferrer" className="pointer-events-auto mt-4 inline-block text-sm text-[#57D9FF] underline underline-offset-4">Подробнее в NASA ↗</a>}
       </div>
-      <div className="flex items-end justify-between gap-4">
-        <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setExplore(false); setArrived(false); }}>← На главную</button>
-        <span role="status" className="text-right text-xs text-[#94A3B8]">{arrived ? "Обзорная сцена" : "Перелёт камеры…"}</span>
+      <div className="flex flex-col gap-4">
+        <div aria-label="Выбрать планету" className="pointer-events-auto flex max-w-4xl flex-wrap gap-2">
+          {solarPlanets.map((planet) => <button type="button" key={planet.slug} onClick={() => { setArrived(false); selectPlanet(planet.slug); }} aria-pressed={selected === planet.slug}
+            className={`rounded-full border px-3 py-2 text-xs transition-colors sm:px-4 sm:text-sm ${selected === planet.slug ? "border-[#57D9FF] bg-[#246BFD]/30 text-white" : "border-white/25 bg-[#071426]/85 text-[#94A3B8] hover:border-[#57D9FF] hover:text-white"}`}>
+            {planet.name}
+          </button>)}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          {selectedBody && <>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(solarPlanets[(selectedIndex + solarPlanets.length - 1) % solarPlanets.length].slug); }}>← Предыдущая</button>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(solarPlanets[(selectedIndex + 1) % solarPlanets.length].slug); }}>Следующая →</button>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(null); }}>Общий вид</button>
+          </>}
+          <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { selectPlanet(null); setExplore(false); setArrived(false); }}>На главную</button>
+          <span role="status" className="text-xs text-[#94A3B8]">{arrived ? "Камера готова" : "Перелёт камеры…"}</span>
+        </div>
       </div>
     </div>}
     {!explore && <section id="about" className="relative z-10 mx-auto max-w-7xl border-t border-white/15 px-6 py-16 text-sm leading-7 text-[#94A3B8] sm:px-12">

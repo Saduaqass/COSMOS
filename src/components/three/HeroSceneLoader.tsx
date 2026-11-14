@@ -2,10 +2,11 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import type { PlanetSlug } from "@/data/solarObjects";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
-export function HeroSceneLoader({ explore, onArrive }: { explore: boolean; onArrive: () => void }) {
+export function HeroSceneLoader({ explore, selected, onArrive }: { explore: boolean; selected: PlanetSlug | null; onArrive: () => void }) {
   const [available, setAvailable] = useState<boolean | null>(null);
   useEffect(() => {
     const canvas = document.createElement("canvas");
@@ -14,5 +15,5 @@ export function HeroSceneLoader({ explore, onArrive }: { explore: boolean; onArr
   }, []);
   if (available === false) return <div className="flex h-full items-center justify-center text-sm text-slate-400" role="status">3D недоступно в этом браузере</div>;
   if (!available) return <div className="h-full" aria-hidden="true" />;
-  return <HeroScene explore={explore} onArrive={onArrive} />;
+  return <HeroScene explore={explore} selected={selected} onArrive={onArrive} />;
 }

@@ -2,9 +2,10 @@
 
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import * as THREE from "three";
 import type { SolarPlanet } from "@/data/solarObjects";
+import { useUniverseStore } from "@/store/universe";
 
 function Moon() {
   const texture = useTexture("/textures/moon.jpg");
@@ -22,15 +23,21 @@ export function Planet({ body }: { body: SolarPlanet }) {
   const texture = useTexture(body.texture);
   const orbit = useRef<THREE.Group>(null);
   const surface = useRef<THREE.Mesh>(null);
+  const selected = useUniverseStore((state) => state.selected);
+  const selectPlanet = useUniverseStore((state) => state.selectPlanet);
+  const [hovered, setHovered] = useState(false);
   useFrame((_, delta) => {
-    if (orbit.current) orbit.current.rotation.y += delta * body.orbitSpeed;
+    if (orbit.current && selected !== body.slug) orbit.current.rotation.y += delta * body.orbitSpeed;
     if (surface.current) surface.current.rotation.y += delta * body.spinSpeed;
   });
   return <group ref={orbit} rotation={[0, body.initialAngle, 0]}>
     <group position={[body.radius, 0, 0]} rotation={[0, 0, body.axialTilt]}>
-      <mesh ref={surface} name={body.name}>
+      <mesh ref={surface} name={body.name} scale={hovered || selected === body.slug ? 1.15 : 1}
+        onClick={(event) => { event.stopPropagation(); selectPlanet(body.slug); }}
+        onPointerOver={(event) => { event.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
+        onPointerOut={() => { setHovered(false); document.body.style.cursor = ""; }}>
         <sphereGeometry args={[body.size, 32, 24]} />
-        <meshStandardMaterial map={texture} roughness={0.94} />
+        <meshStandardMaterial map={texture} roughness={0.94} emissive={hovered ? "#57d9ff" : "#000000"} emissiveIntensity={0.35} />
       </mesh>
       {body.slug === "earth" && <>
         <mesh scale={1.08}>
