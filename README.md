@@ -31,3 +31,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 - [Tailwind CSS с Next.js](https://tailwindcss.com/docs/installation/framework-guides/nextjs)
 
 Источники текстур и научных данных будут перечислены после их добавления.
+
+## Текстуры
+
+- `public/textures/earth-blue-marble.png` — [NASA SVS Blue Marble](https://svs.gsfc.nasa.gov/2915/), credit: NASA/Goddard Space Flight Center Scientific Visualization Studio. Использование для образовательной визуализации согласно [правилам NASA](https://www.nasa.gov/nasa-brand-center/images-and-media/).

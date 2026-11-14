@@ -22,3 +22,13 @@
 - Начальная страница использует единый визуальный язык и видимый фокус клавиатуры.
 - Проверки: ESLint, TypeScript, production build — успешно.
 - Следующий этап: 3D-Земля в hero, звёздное окружение и переход к Солнечной системе.
+
+## Этап 3 — в работе (14 ноября 2026)
+- Добавлена настоящая WebGL-сцена: вращающаяся сфера Земли с картой NASA Blue Marble, освещением, атмосферным слоем, звёздами и лёгким движением камеры.
+- Сцена загружается динамически. При отсутствии WebGL выводится текстовый fallback.
+- Проверки: ESLint, TypeScript и production build — успешно. Ошибки правил React Hooks устранены.
+- Осталось: переход управляемой камерой к Солнечной системе, кнопка начала исследования, визуальная проверка в браузере.
+
+### Ресурс
+- NASA/Goddard Space Flight Center Scientific Visualization Studio, Blue Marble: https://svs.gsfc.nasa.gov/2915/ ; файл `public/textures/earth-blue-marble.png`.
+- Условия использования NASA: https://www.nasa.gov/nasa-brand-center/images-and-media/

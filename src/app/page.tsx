@@ -1,11 +1,13 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { ActionLink } from "@/components/ui/ActionLink";
+import { HeroSceneLoader } from "@/components/three/HeroSceneLoader";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#03050B] text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_43%,#123963_0%,#071426_34%,#03050B_70%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(#fff_1px,transparent_1px)] [background-size:37px_37px]" />
+      <div className="pointer-events-none absolute right-[-25%] top-[10%] h-[65vh] w-[115%] opacity-75 sm:right-[-14%] sm:top-0 sm:h-screen sm:w-[75%] sm:opacity-100" aria-hidden="true"><HeroSceneLoader /></div>
       <SiteHeader />
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-center px-6 pb-16 pt-36 sm:px-12">
         <p className="mb-6 text-xs font-semibold uppercase tracking-[0.25em] text-[#57D9FF] sm:tracking-[0.35em]">Исследуй Вселенную без границ</p>
