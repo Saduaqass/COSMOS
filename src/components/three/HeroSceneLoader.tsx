@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
-export function HeroSceneLoader() {
+export function HeroSceneLoader({ explore, onArrive }: { explore: boolean; onArrive: () => void }) {
   const [available, setAvailable] = useState<boolean | null>(null);
   useEffect(() => {
     const canvas = document.createElement("canvas");
@@ -14,5 +14,5 @@ export function HeroSceneLoader() {
   }, []);
   if (available === false) return <div className="flex h-full items-center justify-center text-sm text-slate-400" role="status">3D недоступно в этом браузере</div>;
   if (!available) return <div className="h-full" aria-hidden="true" />;
-  return <HeroScene />;
+  return <HeroScene explore={explore} onArrive={onArrive} />;
 }

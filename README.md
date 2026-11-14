@@ -35,3 +35,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 ## Текстуры
 
 - `public/textures/earth-blue-marble.png` — [NASA SVS Blue Marble](https://svs.gsfc.nasa.gov/2915/), credit: NASA/Goddard Space Flight Center Scientific Visualization Studio. Использование для образовательной визуализации согласно [правилам NASA](https://www.nasa.gov/nasa-brand-center/images-and-media/).
+
+## Текущий статус
+
+Этап 3 завершён: главная страница содержит 3D-Землю и управляемый перелёт камеры к обзорной Солнечной системе. Планеты в обзорной сцене пока имеют условные цвета и масштаб; детальные текстуры и научная интерактивность входят в следующие этапы.
