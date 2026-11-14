@@ -74,3 +74,14 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 ## Качество, доступность и fallback
 
 В настройках симуляции доступны профили 3D-графики: низкий, средний и высокий. На узких экранах и устройствах с ограниченными ресурсами автоматически уменьшаются pixel ratio, сложность геометрии и число звёзд. Для движения сцены и GSAP-переходов учитывается `prefers-reduced-motion`; выбор планет и управление симуляцией доступны через клавиатуру. Если WebGL недоступен или 3D-сцена не загружается, сайт показывает текстовое сообщение, а научные данные остаются доступны.
+
+## Фирменная айдентика
+
+Знак COSMOS объединяет объёмную букву C из тёмного титана, наклонённое орбитальное кольцо и голубое светящееся ядро. Процедурная модель `CosmosLogo3D` встроена в общий hero Canvas; Header и Footer используют векторный вариант без дополнительного WebGL-контекста. GSAP-анимация wordmark и вращение 3D-знака учитывают `prefers-reduced-motion`.
+
+- `src/components/branding/CosmosLogo3D.tsx` — процедурная 3D-геометрия знака.
+- `src/components/branding/CosmosLogo.tsx` и `AnimatedLogo.tsx` — горизонтальный и компактный интерфейсные варианты.
+- `public/branding/cosmos-symbol.svg`, `cosmos-logo-horizontal.svg`, `cosmos-logo-white.svg` — производные одного знака.
+- `public/branding/cosmos-symbol.png`, `cosmos-logo.png`, `cosmos-og.jpg` — растровые версии для иконок и публикаций (Open Graph 1200×630).
+- `src/app/favicon.ico`, `icon.svg`, `icon.png`, `apple-icon.png` — favicon и app icons.
+- Загрузочная заставка показывается на время загрузки 3D-модуля и текстур, без искусственной задержки.

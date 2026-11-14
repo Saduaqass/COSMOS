@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars, useTexture } from "@react-three/drei";
+import { Html, OrbitControls, Stars, useTexture } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import * as THREE from "three";
@@ -10,6 +10,9 @@ import { solarPlanets, type PlanetSlug } from "@/data/solarObjects";
 import { useUniverseStore } from "@/store/universe";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { getRenderProfile } from "@/lib/renderQuality";
+import { CosmosLogo3D } from "@/components/branding/CosmosLogo3D";
+import { LoadingScreen } from "@/components/branding/LoadingScreen";
+import { useTranslations } from "next-intl";
 
 function HeroEarth() {
   const mesh = useRef<THREE.Mesh>(null);
@@ -86,6 +89,7 @@ function CameraRig({ explore, selected, onArrive }: { explore: boolean; selected
 useTexture.preload("/textures/earth-blue-marble.png");
 
 export default function HeroScene({ explore, selected, onArrive }: { explore: boolean; selected: PlanetSlug | null; onArrive: () => void }) {
+  const loading = useTranslations("loading");
   const showStars = useUniverseStore((state) => state.showStars);
   const quality = useUniverseStore((state) => state.quality);
   const profile = getRenderProfile(quality);
@@ -94,8 +98,11 @@ export default function HeroScene({ explore, selected, onArrive }: { explore: bo
     <color attach="background" args={["#03050b"]} />
     <ambientLight intensity={0.8} />
     <directionalLight position={[-16, 3, 8]} intensity={3} color="#ffffff" />
-    <Suspense fallback={null}><HeroEarth /></Suspense>
-    <SolarSystem />
+    <Suspense fallback={<Html fullscreen><LoadingScreen message={loading("journey")} /></Html>}>
+      <HeroEarth />
+      <SolarSystem />
+    </Suspense>
+    <CosmosLogo3D position={[-20, -2.05, 0]} scale={0.52} visible={!explore} />
     {showStars && <Stars radius={80} depth={40} count={profile.stars} factor={2} saturation={0} fade speed={reducedMotion ? 0 : 0.15} />}
     <CameraRig explore={explore} selected={selected} onArrive={onArrive} />
   </Canvas>;

@@ -1,13 +1,15 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars, useTexture } from "@react-three/drei";
+import { Html, OrbitControls, Stars, useTexture } from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import * as THREE from "three";
 import { solarPlanets, type PlanetSlug } from "@/data/solarObjects";
 import { useUniverseStore } from "@/store/universe";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { getRenderProfile } from "@/lib/renderQuality";
+import { LoadingScreen } from "@/components/branding/LoadingScreen";
+import { useTranslations } from "next-intl";
 
 function Body({ slug }: { slug: PlanetSlug }) {
   const planet = solarPlanets.find((item) => item.slug === slug)!;
@@ -40,13 +42,14 @@ function Body({ slug }: { slug: PlanetSlug }) {
 }
 
 export default function PlanetView({ slug }: { slug: PlanetSlug }) {
+  const loading = useTranslations("loading");
   const quality = useUniverseStore((state) => state.quality);
   const profile = getRenderProfile(quality);
   const reducedMotion = useReducedMotion();
   return <Canvas camera={{ position: [0, 0, slug === "saturn" ? 7 : 5], fov: 45 }} dpr={[0.85, profile.dpr]} gl={{ antialias: true }} style={{ touchAction: "pan-y" }}>
     <ambientLight intensity={0.55} />
     <directionalLight position={[-4, 3, 5]} intensity={2.5} />
-    <Suspense fallback={null}><Body slug={slug} /></Suspense>
+    <Suspense fallback={<Html center><LoadingScreen compact message={loading("planet")} /></Html>}><Body slug={slug} /></Suspense>
     <Stars radius={70} depth={30} count={profile.detailStars} factor={1.5} fade speed={reducedMotion ? 0 : 0.15} />
     <OrbitControls enablePan={false} minDistance={2.5} maxDistance={9} />
   </Canvas>;

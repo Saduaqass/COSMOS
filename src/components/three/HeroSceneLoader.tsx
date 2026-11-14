@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { PlanetSlug } from "@/data/solarObjects";
 import { WebGLErrorBoundary } from "./WebGLErrorBoundary";
 import { useTranslations } from "next-intl";
+import { LoadingScreen } from "@/components/branding/LoadingScreen";
 
 const HeroScene = dynamic(() => import("./HeroScene"), {
   ssr: false,
@@ -12,8 +13,7 @@ const HeroScene = dynamic(() => import("./HeroScene"), {
 });
 
 function Loading() {
-  const t = useTranslations("loading");
-  return <div className="flex h-full items-center justify-center text-sm text-[#94A3B8]" role="status">{t("universe")}</div>;
+  return <LoadingScreen />;
 }
 
 export function HeroSceneLoader({ explore, selected, onArrive }: { explore: boolean; selected: PlanetSlug | null; onArrive: () => void }) {
@@ -25,6 +25,6 @@ export function HeroSceneLoader({ explore, selected, onArrive }: { explore: bool
     return () => cancelAnimationFrame(frame);
   }, []);
   if (available === false) return <div className="flex h-full items-center justify-center px-6 text-center text-sm text-slate-400" role="status">{t("webglHome")}</div>;
-  if (!available) return <div className="flex h-full items-center justify-center text-sm text-[#94A3B8]" role="status">{t("preparing")}</div>;
+  if (!available) return <LoadingScreen message={t("journey")} />;
   return <WebGLErrorBoundary label={t("errorHome")}><HeroScene explore={explore} selected={selected} onArrive={onArrive} /></WebGLErrorBoundary>;
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { PlanetSlug } from "@/data/solarObjects";
 import { WebGLErrorBoundary } from "./WebGLErrorBoundary";
 import { useTranslations } from "next-intl";
+import { LoadingScreen } from "@/components/branding/LoadingScreen";
 
 const PlanetView = dynamic(() => import("./PlanetView"), {
   ssr: false,
@@ -13,7 +14,7 @@ const PlanetView = dynamic(() => import("./PlanetView"), {
 
 function Loading() {
   const t = useTranslations("loading");
-  return <div className="flex h-full items-center justify-center text-sm text-[#94A3B8]" role="status">{t("planet")}</div>;
+  return <LoadingScreen compact message={t("planet")} />;
 }
 
 export function PlanetViewLoader({ slug }: { slug: PlanetSlug }) {
@@ -25,6 +26,6 @@ export function PlanetViewLoader({ slug }: { slug: PlanetSlug }) {
     return () => cancelAnimationFrame(frame);
   }, []);
   if (webgl === false) return <div className="flex h-full items-center justify-center text-center text-sm text-[#94A3B8]" role="status">{t("webglPlanet")}</div>;
-  if (!webgl) return <div className="flex h-full items-center justify-center text-sm text-[#94A3B8]" role="status">{t("preparing")}</div>;
+  if (!webgl) return <LoadingScreen compact message={t("preparing")} />;
   return <WebGLErrorBoundary label={t("errorPlanet")}><PlanetView slug={slug} /></WebGLErrorBoundary>;
 }

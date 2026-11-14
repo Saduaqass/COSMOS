@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="titanium" x1="29" y1="23" x2="89" y2="98" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/><stop offset=".38" stop-color="#B8C6D9"/><stop offset="1" stop-color="#58718E"/>
+    </linearGradient>
+    <linearGradient id="orbit" x1="13" y1="84" x2="106" y2="34" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#246BFD"/><stop offset=".48" stop-color="#B8C6D9"/><stop offset="1" stop-color="#57D9FF"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientTransform="matrix(9 12 -12 9 57 46)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/><stop offset=".35" stop-color="#8DEBFF"/><stop offset="1" stop-color="#246BFD"/>
+    </radialGradient>
+    <filter id="glow" x="28" y="27" width="65" height="66" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+  <g id="cosmos-symbol">
+    <path d="M82.2 31.7A36.5 36.5 0 1 0 82.2 88.3L72 77.8A21.8 21.8 0 1 1 72 42.2L82.2 31.7Z" fill="url(#titanium)" stroke="#EAF4FF" stroke-opacity=".28" stroke-width="1.5"/>
+    <ellipse cx="60" cy="60" rx="48" ry="20" transform="rotate(-31 60 60)" stroke="url(#orbit)" stroke-width="3.4"/>
+    <circle cx="60" cy="60" r="14" fill="#57D9FF" opacity=".48" filter="url(#glow)"/>
+    <circle cx="60" cy="60" r="8.5" fill="url(#core)" stroke="#E9FBFF" stroke-opacity=".9" stroke-width="1.2"/>
+    <circle cx="99.5" cy="37.1" r="3.2" fill="#DDF8FF"/>
+  </g>
+</svg>
