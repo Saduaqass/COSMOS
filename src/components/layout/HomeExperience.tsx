@@ -17,8 +17,39 @@ export function HomeExperience() {
   const onArrive = useCallback(() => setArrived(true), []);
   const selected = useUniverseStore((state) => state.selected);
   const selectPlanet = useUniverseStore((state) => state.selectPlanet);
+  const travelActive = useUniverseStore((state) => state.travelActive);
+  const travelPaused = useUniverseStore((state) => state.travelPaused);
+  const travelCompleted = useUniverseStore((state) => state.travelCompleted);
+  const startTravel = useUniverseStore((state) => state.startTravel);
+  const toggleTravelPause = useUniverseStore((state) => state.toggleTravelPause);
+  const advanceTravel = useUniverseStore((state) => state.advanceTravel);
+  const endTravel = useUniverseStore((state) => state.endTravel);
+  const completeTravel = useUniverseStore((state) => state.completeTravel);
   const selectedBody = solarPlanets.find((planet) => planet.slug === selected);
   const selectedIndex = solarPlanets.findIndex((planet) => planet.slug === selected);
+
+  useEffect(() => {
+    if (!travelActive || travelPaused || !arrived || !selectedBody) return;
+    const timeout = window.setTimeout(() => {
+      if (selectedIndex === solarPlanets.length - 1) {
+        completeTravel();
+        return;
+      }
+      setArrived(false);
+      advanceTravel();
+    }, 5200);
+    return () => window.clearTimeout(timeout);
+  }, [travelActive, travelPaused, arrived, selectedBody, selectedIndex, advanceTravel, completeTravel]);
+
+  const beginTravel = () => {
+    setArrived(false);
+    setExplore(true);
+    startTravel();
+  };
+  const stopTravel = () => {
+    endTravel();
+    setArrived(false);
+  };
 
   useEffect(() => {
     if (!intro.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -38,10 +69,11 @@ export function HomeExperience() {
       <p data-intro className="mt-8 max-w-xl text-base leading-7 text-[#94A3B8]">COSMOS — интерактивная образовательная платформа для путешествия по Солнечной системе.</p>
       <div data-intro className="mt-10 flex flex-wrap gap-4">
         <button type="button" className="action-link action-link-primary" onClick={() => { setArrived(false); setExplore(true); }}>Начать исследование</button>
+        <button type="button" className="action-link action-link-secondary" onClick={beginTravel}>Космическое путешествие</button>
         <ActionLink href="#about" variant="secondary">О проекте</ActionLink>
       </div>
     </div> : <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-6 pt-28 sm:p-12 sm:pt-32">
-      <SimulationControls onCameraReset={() => setArrived(false)} />
+      <SimulationControls onCameraReset={() => { stopTravel(); setArrived(false); }} />
       <div className={`max-w-xl ${selectedBody ? "rounded-2xl border border-white/10 bg-[#071426]/80 p-5 shadow-2xl backdrop-blur-md sm:p-7" : ""}`}>
         <p className="text-xs uppercase tracking-[.3em] text-[#57D9FF]">Интерактивный обзор</p>
         <h1 className="mt-3 text-3xl font-light sm:text-5xl">{selectedBody?.name ?? "Солнечная система"}</h1>
@@ -53,19 +85,25 @@ export function HomeExperience() {
       </div>
       <div className="flex flex-col gap-4">
         <div aria-label="Выбрать планету" className="pointer-events-auto flex max-w-4xl flex-wrap gap-2">
-          {solarPlanets.map((planet) => <button type="button" key={planet.slug} onClick={() => { setArrived(false); selectPlanet(planet.slug); }} aria-pressed={selected === planet.slug}
+          {solarPlanets.map((planet) => <button type="button" key={planet.slug} onClick={() => { stopTravel(); setArrived(false); selectPlanet(planet.slug); }} aria-pressed={selected === planet.slug}
             className={`rounded-full border px-3 py-2 text-xs transition-colors sm:px-4 sm:text-sm ${selected === planet.slug ? "border-[#57D9FF] bg-[#246BFD]/30 text-white" : "border-white/25 bg-[#071426]/85 text-[#94A3B8] hover:border-[#57D9FF] hover:text-white"}`}>
             {planet.name}
           </button>)}
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          {selectedBody && <>
+          {!travelActive && !selectedBody && <button type="button" className="pointer-events-auto action-link action-link-primary" onClick={beginTravel}>Начать путешествие</button>}
+          {travelActive && <>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={toggleTravelPause}>{travelPaused ? "Продолжить" : "Пауза"}</button>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); advanceTravel(); }}>Следующая планета →</button>
+            <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={stopTravel}>Завершить путешествие</button>
+          </>}
+          {selectedBody && !travelActive && <>
             <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(solarPlanets[(selectedIndex + solarPlanets.length - 1) % solarPlanets.length].slug); }}>← Предыдущая</button>
             <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(solarPlanets[(selectedIndex + 1) % solarPlanets.length].slug); }}>Следующая →</button>
             <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { setArrived(false); selectPlanet(null); }}>Общий вид</button>
           </>}
-          <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { selectPlanet(null); setExplore(false); setArrived(false); }}>На главную</button>
-          <span role="status" className="text-xs text-[#94A3B8]">{arrived ? "Камера готова" : "Перелёт камеры…"}</span>
+          <button type="button" className="pointer-events-auto action-link action-link-secondary" onClick={() => { stopTravel(); selectPlanet(null); setExplore(false); setArrived(false); }}>На главную</button>
+          <span role="status" className="text-xs text-[#94A3B8]">{travelPaused ? "Путешествие приостановлено" : travelCompleted ? "Путешествие завершено" : arrived ? travelActive ? `Остановка ${selectedIndex + 1} / 8` : "Камера готова" : "Перелёт камеры…"}</span>
         </div>
       </div>
     </div>}

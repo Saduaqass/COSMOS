@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { PlanetSlug } from "@/data/solarObjects";
+import { solarPlanets } from "@/data/solarObjects";
 
 export type SimulationSpeed = 0 | 0.5 | 1 | 2 | 5;
 
@@ -18,6 +19,14 @@ type UniverseState = {
   toggleStars: () => void;
   cameraResetToken: number;
   resetCamera: () => void;
+  travelActive: boolean;
+  travelPaused: boolean;
+  travelCompleted: boolean;
+  startTravel: () => void;
+  toggleTravelPause: () => void;
+  advanceTravel: () => void;
+  endTravel: () => void;
+  completeTravel: () => void;
 };
 
 export const useUniverseStore = create<UniverseState>((set) => ({
@@ -35,4 +44,16 @@ export const useUniverseStore = create<UniverseState>((set) => ({
   toggleStars: () => set((state) => ({ showStars: !state.showStars })),
   cameraResetToken: 0,
   resetCamera: () => set((state) => ({ selected: null, cameraResetToken: state.cameraResetToken + 1 })),
+  travelActive: false,
+  travelPaused: false,
+  travelCompleted: false,
+  startTravel: () => set({ travelActive: true, travelPaused: false, travelCompleted: false, selected: solarPlanets[0].slug }),
+  toggleTravelPause: () => set((state) => ({ travelPaused: !state.travelPaused })),
+  advanceTravel: () => set((state) => {
+    const currentIndex = solarPlanets.findIndex((planet) => planet.slug === state.selected);
+    const next = solarPlanets[(currentIndex + 1) % solarPlanets.length];
+    return { selected: next.slug };
+  }),
+  endTravel: () => set({ travelActive: false, travelPaused: false, travelCompleted: false }),
+  completeTravel: () => set({ travelActive: false, travelPaused: false, travelCompleted: true }),
 }));

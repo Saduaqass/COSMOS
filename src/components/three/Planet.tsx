@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { Html, useTexture } from "@react-three/drei";
+import { Billboard, Text, useTexture } from "@react-three/drei";
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import type { SolarPlanet } from "@/data/solarObjects";
@@ -53,9 +53,11 @@ export function Planet({ body }: { body: SolarPlanet }) {
         <ringGeometry args={[0.56, 0.8, 64]} />
         <meshStandardMaterial color="#c7b68d" transparent opacity={0.72} side={THREE.DoubleSide} roughness={1} />
       </mesh>}
-      {showLabels && <Html position={[0, body.size + 0.18, 0]} center style={{ pointerEvents: "none", whiteSpace: "nowrap", color: "#cbd5e1", fontSize: 11, textShadow: "0 1px 6px #03050b" }}>
-        {body.name}
-      </Html>}
+      {showLabels && <Billboard position={[0, body.size + 0.24, 0]}>
+        <Text fontSize={0.045} color="#cbd5e1" outlineWidth={0.003} outlineColor="#03050b" anchorX="center" anchorY="middle">
+          {body.name}
+        </Text>
+      </Billboard>}
     </group>
   </group>;
 }
