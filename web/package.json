@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:messages": "node scripts/check-messages.mjs",
-    "android:build:web": "node scripts/build-android-web.mjs",
+    "check:messages": "node ../scripts/check-messages.mjs",
+    "android:build:web": "node ../scripts/build-android-web.mjs",
     "android:sync": "npm run android:build:web && cap sync android",
     "android:open": "cap open android"
   },

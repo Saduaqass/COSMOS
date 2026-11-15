@@ -16,7 +16,7 @@ function flatten(value, prefix = "", paths = []) {
 }
 
 const dictionaries = await Promise.all(locales.map(async (locale) => {
-  const source = await readFile(new URL(`../messages/${locale}.json`, import.meta.url), "utf8");
+  const source = await readFile(new URL(`../web/messages/${locale}.json`, import.meta.url), "utf8");
   return [locale, flatten(JSON.parse(source))];
 }));
 const [, baseEntries] = dictionaries[0];

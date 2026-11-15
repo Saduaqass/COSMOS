@@ -9,7 +9,7 @@
 ## Запуск
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -47,7 +47,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 ## Развёртывание
 
-Проект готов к Vercel: подключите репозиторий GitHub и оставьте стандартные настройки Next.js. `VERCEL_PROJECT_PRODUCTION_URL` используется для canonical URL автоматически. Для собственного домена задайте `NEXT_PUBLIC_SITE_URL` (например, `https://cosmos.example.com`) в окружении сборки, чтобы canonical и hreflang указывали на публичный адрес. Перед публикацией проверьте `npm run lint`, `npx tsc --noEmit`, `npm run build` и `npm audit`.
+Проект готов к Vercel: подключите репозиторий GitHub и укажите `web` в качестве Root Directory. `VERCEL_PROJECT_PRODUCTION_URL` используется для canonical URL автоматически. Для собственного домена задайте `NEXT_PUBLIC_SITE_URL` (например, `https://cosmos.example.com`) в окружении сборки, чтобы canonical и hreflang указывали на публичный адрес. Перед публикацией проверьте `npm run lint`, `npx tsc --noEmit`, `npm run build` и `npm audit`.
 
 ## Источники карт планет
 
@@ -93,10 +93,11 @@ Android uses Capacitor 8 and packages the shared 3D experience, all three locale
 ```bash
 npm install
 npm run android:sync
+cd ../android
 # Select JDK 21 for Gradle, then:
-./android/gradlew -p android assembleDebug
+./gradlew assembleDebug
 ```
 
 Open `android/` in Android Studio. In the current outer workspace, `../android/` is also available as a symlink to the tracked project directory. The debug APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`. Release signing must be configured locally; no signing keys are stored in this repository.
 
-See [`docs/android/ANDROID_SETUP.md`](../android/ANDROID_SETUP.md) and [`docs/architecture/ARCHITECTURE.md`](../architecture/ARCHITECTURE.md) for requirements, offline scope, build details, and known platform limitations.
+See [`docs/android/ANDROID_SETUP.md`](../docs/android/ANDROID_SETUP.md) and [`docs/architecture/ARCHITECTURE.md`](../docs/architecture/ARCHITECTURE.md) for requirements, offline scope, build details, and known platform limitations.

@@ -3,8 +3,16 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symli
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const workspace = mkdtempSync(path.join(projectRoot, ".android-static-work-"));
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const webRoot = path.join(repositoryRoot, "web");
+const moduleRoots = [webRoot, repositoryRoot];
+const nodeModulesRoot = moduleRoots
+  .map((root) => path.join(root, "node_modules"))
+  .find((root) => existsSync(root));
+
+if (!nodeModulesRoot) throw new Error("Install the web dependencies before building Android web assets.");
+
+const workspace = mkdtempSync(path.join(webRoot, ".android-static-work-"));
 const nextConfig = path.join(workspace, "next.config.ts");
 const proxyFile = path.join(workspace, "src/proxy.ts");
 const localeApi = path.join(workspace, "src/app/api/locale");
@@ -23,11 +31,11 @@ const files = [
 
 try {
   for (const name of files) {
-    const source = path.join(projectRoot, name);
+    const source = path.join(webRoot, name);
     if (existsSync(source)) cpSync(source, path.join(workspace, name), { recursive: true });
   }
 
-  symlinkSync(path.join(projectRoot, "node_modules"), path.join(workspace, "node_modules"), "dir");
+  symlinkSync(nodeModulesRoot, path.join(workspace, "node_modules"), "dir");
   rmSync(proxyFile);
   rmSync(localeApi, { recursive: true, force: true });
 
@@ -68,16 +76,16 @@ export default function NativeAppStart() {
     .replace("turbopack: {", "turbopack: { root: process.env.COSMOS_TURBOPACK_ROOT,");
   writeFileSync(nextConfig, config);
 
-  const nextBin = path.join(projectRoot, "node_modules/.bin/next");
+  const nextBin = path.join(nodeModulesRoot, ".bin/next");
   const result = spawnSync(nextBin, ["build"], {
     cwd: workspace,
     stdio: "inherit",
-    env: { ...process.env, COSMOS_TURBOPACK_ROOT: projectRoot },
+    env: { ...process.env, COSMOS_TURBOPACK_ROOT: webRoot },
   });
   if (result.error) throw result.error;
   if (result.status !== 0) process.exitCode = result.status ?? 1;
   else {
-    const androidWebDir = path.join(projectRoot, "android-web-build");
+    const androidWebDir = path.join(webRoot, "android-web-build");
     rmSync(androidWebDir, { recursive: true, force: true });
     cpSync(path.join(workspace, "out"), androidWebDir, { recursive: true });
     console.log(`Android web assets written to ${androidWebDir}`);

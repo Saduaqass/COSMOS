@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: "COSMOS",
   webDir: "android-web-build",
   android: {
-    path: "android",
+    path: "../android",
     backgroundColor: "#03050B",
     minWebViewVersion: 60,
   },

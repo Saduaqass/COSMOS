@@ -8,18 +8,19 @@
 
 ## Build and open
 
-From the web repository root:
+From the monorepo root, enter the web app first:
 
 ```bash
-npm install
+cd web
+npm ci
 npm run android:build:web
 npx cap sync android
 npx cap open android
 ```
 
-The static web build is generated from the shared Next.js pages and local assets into `android-web-build/`. The Git repository root is the existing inner `cosmos/` directory, so the native project is versioned at `android/` inside that repository. In the current outer workspace, `../android/` is a symlink to that project, allowing Android Studio to open the requested outer `COSMOS/android/` path without a duplicate project. The normal web `npm run build` remains a server-rendered Next.js build.
+The static web build is generated from shared Next.js pages and local assets into `web/android-web-build/`. Capacitor's config uses `android.path: "../android"`, so the native project stays beside the website at the monorepo root. The repository itself is the existing inner `cosmos/` directory; in this workspace, the outer `COSMOS/android/` path is a local symlink to the tracked project. The normal `npm run build` in `web/` remains a server-rendered Next.js build.
 
-To build a debug APK from Android Studio, select the `app` configuration and run it on a device/emulator, or use `./gradlew assembleDebug` from the Android project directory with JDK 21 selected as the Gradle JDK. The APK is written under `app/build/outputs/apk/debug/`.
+To build a debug APK from Android Studio, select the `app` configuration and run it on a device/emulator, or use `./gradlew assembleDebug` from the `android/` directory with JDK 21 selected as the Gradle JDK. The APK is written under `android/app/build/outputs/apk/debug/`.
 
 ## Release signing
 
@@ -33,4 +34,4 @@ The generated bundle includes the locale pages, Three.js code, branding, and loc
 
 - Select a JDK 21 installation under Settings → Build Tools → Gradle → Gradle JDK. The Android Studio 2026 bundled JDK is newer than this Capacitor-generated wrapper supports; Java 17 is too old for the Java 21 source target.
 - If WebGL is unavailable, update Android System WebView/Chrome and verify the device has hardware acceleration enabled.
-- If the native app has stale web assets, rerun the Android web build and then `npx cap sync android`.
+- If the native app has stale web assets, run `cd web && npm run android:sync`.

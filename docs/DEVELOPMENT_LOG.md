@@ -35,3 +35,11 @@
 - Добавлен `.editorconfig` с едиными правилами кодировки, переводов строк и отступов.
 - Проверки: `git diff --check`; структура и перемещения сверены с Git.
 - Следующий этап: перенос Next.js-приложения в `web/` с корректировкой команд сборки, Capacitor config и путей ресурсов.
+
+## Реорганизация монорепозитория — этап 3: перенос веб-приложения (2026-11-15)
+
+- В `web/` перенесены Next.js `src/`, `public/`, `messages/`, `package.json`, lockfile и конфигурации Next.js, TypeScript, ESLint и Capacitor. URL `/textures/...` и `/branding/...` не менялись. Веб-история сохранена в `docs/web/DEVELOPMENT_LOG.md`, прежний подробный README сайта — в `web/README.md`.
+- Общие скрипты остались в корневом `scripts/`; пути проверки словарей и временной Android-сборки адаптированы к `web/`. Capacitor config указывает на соседний `../android`. `.gitignore` обновлён для вложенных зависимостей и build-каталогов.
+- Первый build после перемещения показал, что старые зависимости располагались выше нового Turbopack root. Установлены web-зависимости через `npm ci` в `web/`; последующие проверки прошли.
+- Проверки: `npm run lint`, `npx tsc --noEmit`, `npm run check:messages` (149 ключей на язык), `npm run build`, Android static export (30 локализованных страниц), `npx cap sync android`, `./gradlew assembleDebug` (JDK 21), `git diff --check` — успешно.
+- Следующий этап: перенести оригиналы текстур и логотипов в общий `assets/`, настроить автоматическую доставку в `web/public/` и сохранить текущие URL.
