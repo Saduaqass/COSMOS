@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">COSMOS</string>
+    <string name="title_activity_main">COSMOS</string>
+    <string name="package_name">com.cosmos.app</string>
+    <string name="custom_url_scheme">com.cosmos.app</string>
+</resources>
