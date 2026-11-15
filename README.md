@@ -21,6 +21,7 @@ Git-корнем является каталог `COSMOS/cosmos` в текуще
 
 - [Android: настройка и сборка](docs/android/ANDROID_SETUP.md)
 - [Архитектура](docs/architecture/ARCHITECTURE.md)
+- [Общие ресурсы и лицензии](docs/assets/ASSETS.md)
 - [История веб-сайта](docs/web/DEVELOPMENT_LOG.md)
 
 ### Веб-сайт

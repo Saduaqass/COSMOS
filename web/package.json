@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run assets:sync",
     "dev": "next dev",
+    "prebuild": "npm run assets:sync",
     "build": "next build",
+    "prestart": "npm run assets:sync",
     "start": "next start",
     "lint": "eslint",
+    "assets:sync": "node ../scripts/sync-assets.mjs",
     "check:messages": "node ../scripts/check-messages.mjs",
-    "android:build:web": "node ../scripts/build-android-web.mjs",
+    "android:build:web": "npm run assets:sync && node ../scripts/build-android-web.mjs",
     "android:sync": "npm run android:build:web && cap sync android",
     "android:open": "cap open android"
   },

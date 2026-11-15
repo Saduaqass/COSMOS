@@ -19,6 +19,8 @@
 /web/android-web-build/
 /android-web-build/
 /web/.android-static-work-*/
+/web/public/branding/
+/web/public/textures/
 
 # production
 **/build/

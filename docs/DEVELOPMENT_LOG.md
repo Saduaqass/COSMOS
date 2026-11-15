@@ -43,3 +43,12 @@
 - Первый build после перемещения показал, что старые зависимости располагались выше нового Turbopack root. Установлены web-зависимости через `npm ci` в `web/`; последующие проверки прошли.
 - Проверки: `npm run lint`, `npx tsc --noEmit`, `npm run check:messages` (149 ключей на язык), `npm run build`, Android static export (30 локализованных страниц), `npx cap sync android`, `./gradlew assembleDebug` (JDK 21), `git diff --check` — успешно.
 - Следующий этап: перенести оригиналы текстур и логотипов в общий `assets/`, настроить автоматическую доставку в `web/public/` и сохранить текущие URL.
+
+## Реорганизация монорепозитория — этап 5: общие медиаресурсы (2026-11-15)
+
+- Оригиналы карт планет перенесены в `assets/textures/`, исходные версии фирменного знака и Open Graph материалов — в `assets/logos/`.
+- Добавлен `scripts/sync-assets.mjs`: он обновляет генерируемые `web/public/textures/` и `web/public/branding/` перед dev, production build, start и Android static build. URL в компонентах `/textures/...` и `/branding/...` сохранены; Capacitor получает те же файлы через статический экспорт.
+- Условия использования NASA Blue Marble и CC BY 4.0 для карт Solar System Scope описаны в `docs/assets/ASSETS.md`. Неиспользуемые общие категории (3D-модели, видео, аудио и шрифты) не создавались.
+- Проверки: lint, TypeScript, 149 переводных ключей на язык, Next.js production build, Android static export, Capacitor sync и Gradle debug APK — успешно. Dev smoke check вернул HTTP 200 для `/kk/planets/mars`, `/textures/mars.jpg` и `/branding/cosmos-symbol.svg`; копии файлов совпадают с каноническими оригиналами.
+- Dev smoke check также показал предупреждение Next.js о URL data вне instant-shell Suspense на dynamic route страницы планеты; маршрут отдал HTTP 200. Это существующая особенность страницы, а не ошибка перемещения.
+- Следующий шаг: финально проверить дерево, ссылки документации, игнорирование generated outputs и чистое состояние Git.

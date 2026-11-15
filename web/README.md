@@ -39,7 +39,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 ## Текстуры
 
-- `public/textures/earth-blue-marble.png` — [NASA SVS Blue Marble](https://svs.gsfc.nasa.gov/2915/), credit: NASA/Goddard Space Flight Center Scientific Visualization Studio. Использование для образовательной визуализации согласно [правилам NASA](https://www.nasa.gov/nasa-brand-center/images-and-media/).
+- `../assets/textures/earth-blue-marble.png` — [NASA SVS Blue Marble](https://svs.gsfc.nasa.gov/2915/), credit: NASA/Goddard Space Flight Center Scientific Visualization Studio. Использование для образовательной визуализации согласно [правилам NASA](https://www.nasa.gov/nasa-brand-center/images-and-media/).
 
 ## Текущий статус
 
@@ -57,7 +57,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 ## Научные описания
 
-Краткие факты в карточках сверены со страницами NASA Science; ссылка на соответствующий источник хранится рядом с данными каждой планеты в `src/data/solarObjects.ts`. Числовые характеристики будут добавлены на следующем этапе с указанием даты актуальности для меняющихся показателей.
+Научные описания и числовые характеристики разделены между `src/data/solarObjects.ts` и `src/data/planetFacts.ts`. Источники NASA указаны рядом с данными планет; меняющиеся значения числа спутников снабжены датой актуальности.
 
 ## Характеристики планет
 
@@ -81,8 +81,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 - `src/components/branding/CosmosLogo3D.tsx` — процедурная 3D-геометрия знака.
 - `src/components/branding/CosmosLogo.tsx` и `AnimatedLogo.tsx` — горизонтальный и компактный интерфейсные варианты.
-- `public/branding/cosmos-symbol.svg`, `cosmos-logo-horizontal.svg`, `cosmos-logo-white.svg` — производные одного знака.
-- `public/branding/cosmos-symbol.png`, `cosmos-logo.png`, `cosmos-og.jpg` — растровые версии для иконок и публикаций (Open Graph 1200×630).
+- `../assets/logos/` — исходные SVG и PNG знака и горизонтального логотипа, а также Open Graph изображение (1200×630). Перед запуском и сборкой они копируются в `web/public/branding/`.
 - `src/app/favicon.ico`, `icon.svg`, `icon.png`, `apple-icon.png` — favicon и app icons.
 - Загрузочная заставка показывается на время загрузки 3D-модуля и текстур, без искусственной задержки.
 
