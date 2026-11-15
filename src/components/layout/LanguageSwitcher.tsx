@@ -1,5 +1,6 @@
 "use client";
 
+import { Capacitor } from "@capacitor/core";
 import { useLocale, useTranslations } from "next-intl";
 import { locales, type AppLocale } from "@/i18n/routing";
 import { useActiveLocale } from "./LocaleProvider";
@@ -17,7 +18,14 @@ export function LanguageSwitcher() {
     segments[1] = nextLocale;
     window.history.replaceState(window.history.state, "", `${segments.join("/")}${window.location.search}${window.location.hash}`);
     setLocale(nextLocale);
-    void fetch("/api/locale", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ locale: nextLocale }) });
+    try {
+      window.localStorage.setItem("COSMOS_LOCALE", nextLocale);
+    } catch {
+      // The locale remains active for this session when persistent storage is unavailable.
+    }
+    if (!Capacitor.isNativePlatform()) {
+      void fetch("/api/locale", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ locale: nextLocale }) });
+    }
   };
 
   return <div role="group" aria-label={t("language")} className="flex items-center gap-1 rounded-full border border-white/15 bg-[#071426]/70 p-1">

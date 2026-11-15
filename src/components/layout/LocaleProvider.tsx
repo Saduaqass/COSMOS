@@ -8,6 +8,8 @@ import kkMessages from "../../../messages/kk.json";
 import ruMessages from "../../../messages/ru.json";
 import enMessages from "../../../messages/en.json";
 import { solarPlanets } from "@/data/solarObjects";
+import { Capacitor } from "@capacitor/core";
+import { App } from "@capacitor/app";
 
 const messages = { kk: kkMessages, ru: ruMessages, en: enMessages };
 type MessageTree = Record<string, unknown>;
@@ -29,9 +31,22 @@ export function LocaleProvider({ initialLocale, children }: { initialLocale: App
   return <ActiveLocaleContext.Provider value={{ setLocale }}>
     <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="UTC">
       <LocaleMetadataSync locale={locale} />
+      <AndroidBackHandler />
       {children}
     </NextIntlClientProvider>
   </ActiveLocaleContext.Provider>;
+}
+
+function AndroidBackHandler() {
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") return;
+    const listener = App.addListener("backButton", () => {
+      if (window.history.length > 1) window.history.back();
+      else void App.exitApp();
+    });
+    return () => { void listener.then((handle) => handle.remove()); };
+  }, []);
+  return null;
 }
 
 function LocaleMetadataSync({ locale }: { locale: AppLocale }) {

@@ -88,4 +88,15 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 
 ## Android app
 
-Android setup and the app/web architecture are documented in [`docs/ANDROID_SETUP.md`](docs/ANDROID_SETUP.md) and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). The Android build uses Capacitor and a dedicated static export generated from shared pages and assets; the regular Next.js website keeps its existing server rendering, locale proxy, and cookie route. See the Android setup guide for build requirements and the current offline scope.
+Android uses Capacitor 8 and packages the shared 3D experience, all three locale versions, and the local planet textures. Its static assets are generated separately; the regular Next.js website keeps its server rendering, locale proxy, and cookie route.
+
+```bash
+npm install
+npm run android:sync
+# Select JDK 21 for Gradle, then:
+./android/gradlew -p android assembleDebug
+```
+
+Open `android/` in Android Studio. In the current outer workspace, `../android/` is also available as a symlink to the tracked project directory. The debug APK is written to `android/app/build/outputs/apk/debug/app-debug.apk`. Release signing must be configured locally; no signing keys are stored in this repository.
+
+See [`docs/ANDROID_SETUP.md`](docs/ANDROID_SETUP.md) and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for requirements, offline scope, build details, and known platform limitations.

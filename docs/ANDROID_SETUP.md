@@ -4,7 +4,7 @@
 
 - Node.js 22 or newer and npm.
 - Android Studio 2025.2.1 or newer, Android SDK Platform 36, platform tools, and an API 24+ emulator/device.
-- Use Android Studio's bundled JDK for Gradle when the system JDK is not supported by the Android Gradle Plugin.
+- Use JDK 21 for Gradle. The Capacitor 8 Gradle wrapper is 8.14.3 and its Android sources target Java 21; the Android Studio bundled JDK on this development machine is newer and incompatible with Gradle 8.14.3.
 
 ## Build and open
 
@@ -17,9 +17,9 @@ npx cap sync android
 npx cap open android
 ```
 
-The static web build is generated from the shared Next.js pages and local assets into `android-web-build/`. The Android project is configured at the sibling `../android/` directory so Android Studio opens the requested outer `COSMOS/android/` project. The normal web `npm run build` remains a server-rendered Next.js build.
+The static web build is generated from the shared Next.js pages and local assets into `android-web-build/`. The Git repository root is the existing inner `cosmos/` directory, so the native project is versioned at `android/` inside that repository. In the current outer workspace, `../android/` is a symlink to that project, allowing Android Studio to open the requested outer `COSMOS/android/` path without a duplicate project. The normal web `npm run build` remains a server-rendered Next.js build.
 
-To build a debug APK from Android Studio, select the `app` configuration and run it on a device/emulator, or use `./gradlew assembleDebug` from the Android project directory. The APK is written under `app/build/outputs/apk/debug/`.
+To build a debug APK from Android Studio, select the `app` configuration and run it on a device/emulator, or use `./gradlew assembleDebug` from the Android project directory with JDK 21 selected as the Gradle JDK. The APK is written under `app/build/outputs/apk/debug/`.
 
 ## Release signing
 
@@ -31,6 +31,6 @@ The generated bundle includes the locale pages, Three.js code, branding, and loc
 
 ## Troubleshooting
 
-- If Gradle reports an unsupported Java version, select the JDK bundled in Android Studio under Settings → Build Tools → Gradle → Gradle JDK.
+- Select a JDK 21 installation under Settings → Build Tools → Gradle → Gradle JDK. The Android Studio 2026 bundled JDK is newer than this Capacitor-generated wrapper supports; Java 17 is too old for the Java 21 source target.
 - If WebGL is unavailable, update Android System WebView/Chrome and verify the device has hardware acceleration enabled.
 - If the native app has stale web assets, rerun the Android web build and then `npx cap sync android`.

@@ -16,9 +16,20 @@
 # next.js
 /.next/
 /out/
+/android-web-build/
 
 # production
 /build
+/android/.gradle/
+/android/local.properties
+/android/**/build/
+/android/app/src/main/assets/public/
+/android/app/src/main/assets/capacitor.config.json
+/android/app/src/main/assets/cordova.js
+/android/app/src/main/assets/cordova_plugins.js
+/android/.idea/
+*.jks
+*.keystore
 
 # misc
 .DS_Store
