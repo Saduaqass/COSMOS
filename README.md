@@ -85,3 +85,7 @@ Next.js App Router, React, TypeScript, Tailwind CSS, Three.js, React Three Fiber
 - `public/branding/cosmos-symbol.png`, `cosmos-logo.png`, `cosmos-og.jpg` — растровые версии для иконок и публикаций (Open Graph 1200×630).
 - `src/app/favicon.ico`, `icon.svg`, `icon.png`, `apple-icon.png` — favicon и app icons.
 - Загрузочная заставка показывается на время загрузки 3D-модуля и текстур, без искусственной задержки.
+
+## Android app
+
+Android setup and the app/web architecture are documented in [`docs/ANDROID_SETUP.md`](docs/ANDROID_SETUP.md) and [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). The Android build uses Capacitor and a dedicated static export generated from shared pages and assets; the regular Next.js website keeps its existing server rendering, locale proxy, and cookie route. See the Android setup guide for build requirements and the current offline scope.
