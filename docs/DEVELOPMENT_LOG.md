@@ -51,4 +51,10 @@
 - Условия использования NASA Blue Marble и CC BY 4.0 для карт Solar System Scope описаны в `docs/assets/ASSETS.md`. Неиспользуемые общие категории (3D-модели, видео, аудио и шрифты) не создавались.
 - Проверки: lint, TypeScript, 149 переводных ключей на язык, Next.js production build, Android static export, Capacitor sync и Gradle debug APK — успешно. Dev smoke check вернул HTTP 200 для `/kk/planets/mars`, `/textures/mars.jpg` и `/branding/cosmos-symbol.svg`; копии файлов совпадают с каноническими оригиналами.
 - Dev smoke check также показал предупреждение Next.js о URL data вне instant-shell Suspense на dynamic route страницы планеты; маршрут отдал HTTP 200. Это существующая особенность страницы, а не ошибка перемещения.
-- Следующий шаг: финально проверить дерево, ссылки документации, игнорирование generated outputs и чистое состояние Git.
+
+## Реорганизация монорепозитория — этап 7: финальная проверка (2026-11-15)
+
+- Production smoke check: `/kk`, `/ru`, `/en`, `/kk/planets/earth`, `/ru/planets/mars`, `/en/planets/neptune`, `/textures/earth-blue-marble.png` и `/branding/cosmos-symbol.svg` вернули HTTP 200.
+- Подтверждены отсутствие исходных web-каталогов в корне после переноса, наличие Android Studio проекта, канонических assets, копий в Android bundle и корректное игнорирование build/dependency output.
+- Проверки всех этапов завершились успешно. Предупреждение dev-режима Next.js о `instant-shell` на странице динамической планеты зафиксировано выше; production build и запрос страницы проходят.
+- Итоговый Git: коммиты реорганизации отправлены в `origin/main`, рабочее дерево чистое. Отдельного backend нет; пустые backend/модульные каталоги не создавались.

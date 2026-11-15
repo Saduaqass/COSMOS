@@ -39,3 +39,5 @@ Production-проверки: `npm run lint`, `npx tsc --noEmit`, `npm run check:
 Откройте `android/` в Android Studio. Для синхронизации веб-содержимого и сборки APK следуйте [инструкции Android](docs/android/ANDROID_SETUP.md). Capacitor использует отдельный статический экспорт; сервер Next.js на устройстве не запускается.
 
 Для архитектуры, документации ресурсов и истории работы см. `docs/`.
+
+Подробные инструкции и ограничения: [архитектура](docs/architecture/ARCHITECTURE.md), [Android-сборка](docs/android/ANDROID_SETUP.md), [источники общих ресурсов](docs/assets/ASSETS.md), [журнал реорганизации](docs/DEVELOPMENT_LOG.md).

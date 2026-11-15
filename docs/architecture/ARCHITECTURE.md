@@ -1,5 +1,19 @@
 # COSMOS Web + Android architecture
 
+## Monorepo boundaries
+
+- `web/` is the independently installable Next.js application. Its App Router, React components, Three.js scenes, localization dictionaries, and application state remain together under `web/src/` and `web/messages/` to preserve framework conventions.
+- `android/` is the single Android Studio project. It is a Capacitor host for the web application, with the Kotlin `MainActivity` and platform resources. `web/capacitor.config.ts` resolves this project through `android.path: "../android"`.
+- `assets/` stores source media shared across platforms. The build script copies it into Next.js `public/`; Capacitor then packages that same output for the Android WebView.
+- `scripts/` contains repository-level tooling for dictionary validation, Android static export, and shared asset delivery.
+- There is no standalone backend. The locale cookie route and request proxy are part of the Next.js web application.
+
+## Clean Architecture decision
+
+The web app keeps Next.js route conventions and existing feature-oriented folders (`components/`, `data/`, `hooks/`, `i18n/`, `store/`, `lib/`). Moving these into generic duplicate `pages/`, `services/`, or `utils/` trees would add indirection without creating a real boundary.
+
+The current Kotlin code is a thin Capacitor entry point; the product interface and simulation logic run in the shared web client. There is no native business logic or repository layer to separate today, so the Android project does not contain placeholder `domain/`, `data/`, or dependency-injection packages. If native features with business rules are added later, introduce Kotlin `presentation/`, `domain/`, and `data/` packages around those features without replacing the current stack.
+
 ## Existing web application audit (2026-11-15)
 
 - The Git repository root is the inner `cosmos/` directory (`git rev-parse --show-toplevel`). It is a Next.js App Router site using Next.js 16.4.6, React 19.3.0, TypeScript 5, `next-intl` 4.15.1, Three.js 0.187.0, React Three Fiber 9.8.2, Drei 10.7.9, GSAP 3.15.1, and Zustand 5.1.0.
@@ -22,3 +36,9 @@ The Android module uses Kotlin for `MainActivity`. Capacitor's Android 8 templat
 - WebGL performance depends on Android GPU and WebView version. The site already has adaptive render quality; target frame rate must be measured on representative devices before making performance claims.
 - All current surface textures are local, so primary 3D content can be packaged for offline use. Any future remote API content must provide an explicit offline state.
 - Android Studio and SDK are installed locally; this audit found Android Studio 2026.2, SDK platforms 36/37, and Java 26 on PATH. Capacitor's Android Gradle build should use the JDK bundled with Android Studio if the system Java version is unsupported by the selected Gradle version.
+
+## Final verification
+
+- The production website was started from `web/`; `/kk`, `/ru`, `/en`, representative localized planet routes, `/textures/earth-blue-marble.png`, and `/branding/cosmos-symbol.svg` returned HTTP 200.
+- Android static export and `npx cap sync android` succeeded. Gradle `assembleDebug` succeeded with JDK 21. The earlier emulator run verified localized navigation and offline display; this restructuring did not change the native application behavior.
+- Git contains one repository at the selected existing root, no nested `.git`, and no tracked build output or secrets. `main` is clean and in sync with `origin/main`.
