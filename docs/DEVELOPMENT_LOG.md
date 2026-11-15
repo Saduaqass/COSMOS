@@ -1,4 +1,6 @@
-# COSMOS Android development log
+# COSMOS — журнал разработки монорепозитория
+
+История исходной веб-разработки сохранена отдельно в [`docs/web/DEVELOPMENT_LOG.md`](web/DEVELOPMENT_LOG.md).
 
 ## Stage 1 — Existing project audit (2026-11-15)
 
@@ -24,4 +26,12 @@
 - Installed and launched the app on the running Android 17 / API 37 emulator with WebView 145. Verified the 3D hero and local Earth texture rendered; navigation to `/en/planets/` worked; switching to English persisted after app restart; Android hardware Back returned from Planets to Home.
 - Offline check: disabled emulator Wi-Fi and mobile data, force-restarted COSMOS, and confirmed the localized page and 3D Earth still rendered from bundled assets. Restored emulator networking afterward.
 - Final website checks: `npm run lint`, `npx tsc --noEmit`, dictionary completeness (149 keys per locale), regular Next.js production build, Android static export, and `git diff --check` passed. We did not profile GPU memory or frame rate, so no FPS target is claimed.
-- Remaining: commit and push the native Android project; release signing must be configured locally before distribution.
+- Release signing must be configured locally before distribution. Native project commit and push completed in `b400fd7`.
+
+## Реорганизация монорепозитория — этап 2: корневая структура (2026-11-15)
+
+- Подтверждён существующий Git-корень `COSMOS/cosmos`; выбран вариант сохранить его, чтобы не перемещать `.git` и не затрагивать локальные файлы Android Studio во внешнем каталоге.
+- Документация распределена по разделам `docs/architecture/`, `docs/android/` и `docs/web/`; история сайта перемещена из корневого журнала в `docs/web/DEVELOPMENT_LOG.md` без потери записей.
+- Добавлен `.editorconfig` с едиными правилами кодировки, переводов строк и отступов.
+- Проверки: `git diff --check`; структура и перемещения сверены с Git.
+- Следующий этап: перенос Next.js-приложения в `web/` с корректировкой команд сборки, Capacitor config и путей ресурсов.
